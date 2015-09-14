@@ -11,9 +11,28 @@
         <script src="assets/js/jquery-1.11.1.min.js"></script>
         <script src="assets/js/createjs-2015.05.21.min.js"></script>
         <script src="assets/js/football.js"></script>
+
+        <script src="assets/js/jquery.min.js"></script>
+        <script src="assets/fancybox/jquery.fancybox-1.3.4.pack.js"></script>
+        <link rel="stylesheet" type="text/css" href="assets/fancybox/jquery.fancybox-1.3.4.css" media="screen" />
+        <link rel="stylesheet" type="text/css" href="assets/css/style.css" media="screen" /> 
     </head>
     <body>
-        <button>New Player</button>
+       
+
         <canvas id="FootballCanvas" width="800" height="400"></canvas>
+        <div><a id="various1" href="#add_player" class="btn">New Player</a></div>
+        <div style="display: none;">
+            <div id="add_player" style="width:300px;height:200px;overflow:auto;">
+                <div><input id="name" type="text" value="" placeholder="name"></div>
+
+                <div>
+                    <ul>
+                        <li><a id="add" href="#" class="btn">Save</a></li>
+                        <li><a id="cancel" href="#" class="btn">Cancel</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </body>
 </html>

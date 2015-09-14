@@ -1,7 +1,12 @@
 var el_player, self;
 $(document).ready(function () {
     window.app = new FBApp();
-    el_player = $(".new_player");
+    el_player = $("#add");
+    $("#various1").fancybox({
+        'titlePosition': 'inside',
+        'transitionIn': 'none',
+        'transitionOut': 'none'
+    });
 });
 
 $(window).load(function () {
@@ -24,15 +29,18 @@ FBApp.prototype.onLoad = function () {
     this.stage.mouseMoveOutside = true; // keep tracking the mouse even when it leaves the canvas
 
     el_player.click(function () {
-        self.createPlayer();
+        var el_name = $("#name");
+        var name = el_name.val();
+        el_name.val("");
+        self.createPlayer(name);
     });
 };
 
-FBApp.prototype.createPlayer = function () {
+FBApp.prototype.createPlayer = function (name) {
     var circle = new createjs.Shape();
     circle.graphics.beginFill("red").drawCircle(0, 0, 50);
 
-    var label = new createjs.Text("drag me", "bold 14px Arial", "#FFFFFF");
+    var label = new createjs.Text(name, "bold 14px Arial", "#FFFFFF");
     label.textAlign = "center";
     label.y = -7;
 
@@ -50,4 +58,6 @@ FBApp.prototype.createPlayer = function () {
     });
 
     this.stage.update();
+
+    $.fancybox.close();
 };
