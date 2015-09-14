@@ -1,5 +1,7 @@
+var el_player, self;
 $(document).ready(function () {
     window.app = new FBApp();
+    el_player = $(".new_player");
 });
 
 $(window).load(function () {
@@ -11,6 +13,7 @@ function FBApp() {
 }
 
 FBApp.prototype.onLoad = function () {
+    self = this;
     var canvas = document.getElementById("FootballCanvas");
     //Create a stage by getting a reference to the canvas
     this.stage = new createjs.Stage(canvas);
@@ -20,32 +23,31 @@ FBApp.prototype.onLoad = function () {
     this.stage.enableMouseOver(10);
     this.stage.mouseMoveOutside = true; // keep tracking the mouse even when it leaves the canvas
 
-    this.createPlayer();
+    el_player.click(function () {
+        self.createPlayer();
+    });
 };
 
 FBApp.prototype.createPlayer = function () {
-  //Create a Shape DisplayObject.
-    this.circle = new createjs.Shape();
-    this.circle.graphics.beginFill("red").drawCircle(0, 0, 40);
-    //Set position of Shape instance.
-    this.circle.x = this.circle.y = 50;
+    var circle = new createjs.Shape();
+    circle.graphics.beginFill("red").drawCircle(0, 0, 50);
 
-    this.circle.on("mousedown", function (evt) {
-        this.parent.addChild(this);
-        this.offset = {x: this.x - evt.stageX, y: this.y - evt.stageY};
-    });
+    var label = new createjs.Text("drag me", "bold 14px Arial", "#FFFFFF");
+    label.textAlign = "center";
+    label.y = -7;
 
-    this.circle.on("pressmove", function (evt) {
-        evt.target.x = evt.stageX;
-        evt.target.y = evt.stageY;
-        console.log("pressmove");
+    var dragger = new createjs.Container();
+    dragger.x = dragger.y = 100;
+    dragger.addChild(circle, label);
+    this.stage.addChild(dragger);
+
+    dragger.on("pressmove", function (evt) {
+        // currentTarget will be the container that the event listener was added to:
+        evt.currentTarget.x = evt.stageX;
+        evt.currentTarget.y = evt.stageY;
+        // make sure to redraw the stage to show the change:
         this.stage.update();
     });
-    this.circle.on("pressup", function (evt) {
-        console.log("pressup");
-    });
-        //Add Shape instance to stage display list.
-    this.stage.addChild(this.circle);
-    //Update stage will render next frame
+
     this.stage.update();
-}
+};
